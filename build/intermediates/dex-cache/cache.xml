@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-03d2a791fc6935636cde8425c513df13c348b3d3.jar" />
+    </item>
+    <item
+        jar="C:\Users\prade\StudioProjects\umundo-pingpong\app\libs\umundo.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ce7b00ac251e17ef462df0095f52423933935b18">
+        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\umundo-f843774f057554a10e9c5246ec4a828ba76fe094.jar" />
+    </item>
+
+</items>
