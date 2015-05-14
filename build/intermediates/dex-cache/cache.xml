@@ -2,11 +2,25 @@
 <items version="2" >
 
     <item
-        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jar="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\libs\internal_impl-22.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-03d2a791fc6935636cde8425c513df13c348b3d3.jar" />
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-5d47e3f9f385b30beb7177d995662f8c6ceb5d3d.jar" />
+    </item>
+    <item
+        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-5f7b639de8135024e42567e7fe1ddfdfd8bac0f0.jar" />
+    </item>
+    <item
+        jar="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="C:\Users\prade\StudioProjects\umundo-pingpong\app\build\intermediates\pre-dexed\debug\classes-9dc3ac72a3e14affada56104228162e7cffd3d7e.jar" />
     </item>
     <item
         jar="C:\Users\prade\StudioProjects\umundo-pingpong\app\libs\umundo.jar"

@@ -14,7 +14,16 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.Random;
 
 /**
  * Getting it to run:
@@ -44,6 +53,8 @@ public class UMundoPingPongActivity extends Activity {
 	Node node;
 	Publisher fooPub;
 	Subscriber fooSub;
+
+	ImageView imageView;
 
 	public class TestPublishing implements Runnable {
 
@@ -90,6 +101,13 @@ public class UMundoPingPongActivity extends Activity {
 		tv = new TextView(this);
 		tv.setText("");
 		setContentView(tv);
+		Random r = new Random();
+
+
+
+
+
+
 
 		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		if (wifi != null) {
@@ -116,5 +134,14 @@ public class UMundoPingPongActivity extends Activity {
     
 		testPublishing = new Thread(new TestPublishing());
 		testPublishing.start();
+	}
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.activity_umundo_android, container, false);
+		RelativeLayout layout= (RelativeLayout) view.findViewById(R.id.relative);
+		ImageView picture = new ImageView(this);
+		picture.setImageResource(R.drawable.insect);
+		layout.addView(picture);
+		return view;
 	}
 }

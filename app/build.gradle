@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "org.umundo.samples.pingpong"
-        minSdkVersion 8
-        targetSdkVersion 8
+        minSdkVersion 13
+        targetSdkVersion 22
     }
 
     buildTypes {
@@ -19,6 +19,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:18.0.0'
+    compile 'com.android.support:support-v4:22.0.0'
     compile files('libs/umundo.jar')
 }
