@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.umundo.samples.pingpong.R;
 
 
 public class PlayerName extends Activity {

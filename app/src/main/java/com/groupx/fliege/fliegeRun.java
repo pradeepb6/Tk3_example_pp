@@ -21,7 +21,6 @@ import org.umundo.core.Node;
 import org.umundo.core.Publisher;
 import org.umundo.core.Receiver;
 import org.umundo.core.Subscriber;
-import org.umundo.samples.pingpong.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

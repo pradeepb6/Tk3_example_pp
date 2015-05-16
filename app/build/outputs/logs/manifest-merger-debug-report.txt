@@ -13,17 +13,6 @@ ADDED from AndroidManifest.xml:2:1
 		INJECTED from AndroidManifest.xml:0:0
 	xmlns:android
 		ADDED from AndroidManifest.xml:2:11
-uses-sdk
-ADDED from AndroidManifest.xml:7:5
-MERGED from com.android.support:support-v4:22.0.0:20:5
-	android:targetSdkVersion
-		ADDED from AndroidManifest.xml:9:9
-		INJECTED from AndroidManifest.xml:0:0
-		INJECTED from AndroidManifest.xml:0:0
-	android:minSdkVersion
-		ADDED from AndroidManifest.xml:8:9
-		INJECTED from AndroidManifest.xml:0:0
-		INJECTED from AndroidManifest.xml:0:0
 uses-permission#android.permission.INTERNET
 ADDED from AndroidManifest.xml:11:5
 	android:name
@@ -46,18 +35,18 @@ ADDED from AndroidManifest.xml:15:5
 		ADDED from AndroidManifest.xml:15:22
 application
 ADDED from AndroidManifest.xml:21:5
-MERGED from com.android.support:support-v4:22.0.0:22:5
+MERGED from com.android.support:support-v4:22.1.1:22:5
 	android:label
 		ADDED from AndroidManifest.xml:23:9
 	android:icon
 		ADDED from AndroidManifest.xml:22:9
-activity#org.umundo.samples.pingpong.fliegeRun
+activity#com.groupx.fliege.fliegeRun
 ADDED from AndroidManifest.xml:25:9
 	android:label
 		ADDED from AndroidManifest.xml:27:13
 	android:name
 		ADDED from AndroidManifest.xml:26:13
-activity#org.umundo.samples.pingpong.PlayerName
+activity#com.groupx.fliege.PlayerName
 ADDED from AndroidManifest.xml:29:9
 	android:label
 		ADDED from AndroidManifest.xml:31:13
@@ -73,3 +62,12 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:35:17
 	android:name
 		ADDED from AndroidManifest.xml:35:27
+uses-sdk
+INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from com.android.support:support-v4:22.1.1:20:5
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
