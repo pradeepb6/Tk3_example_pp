@@ -27,11 +27,13 @@
         android:label="@string/app_name" >
         <activity
             android:name="com.groupx.fliege.fliegeRun"
-            android:label="Fliege Run" >
+            android:label="Fliege Run"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.groupx.fliege.PlayerName"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

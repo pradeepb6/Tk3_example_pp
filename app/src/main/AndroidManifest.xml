@@ -20,15 +20,17 @@
     <!--<android:uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
 
         <activity
             android:name=".fliegeRun"
-            android:label="Fliege Run">
+            android:label="Fliege Run"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PlayerName"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

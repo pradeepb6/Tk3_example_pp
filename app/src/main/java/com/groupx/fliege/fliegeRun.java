@@ -31,35 +31,22 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Getting it to run:
- * <p>
- * 1. Replace the umundo.jar in the libs folder by the one from the intaller and
- * add it to the classpath. Make sure to take the umundo.jar for Android, as you
- * are not allowed to have JNI code within and the desktop umundo.jar includes all
- * supported JNI libraries.
- * <p>
- * 2. Replace the JNI library libumundoNativeJava.so (or the debug variant) into libs/armeabi/
- * <p>
- * 3. Make sure System.loadLibrary() loads the correct variant.
- * <p>
- * 4. Make sure you have set the correct permissions:
- * <uses-permission android:name="android.permission.INTERNET"/>
- * <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
- * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
- *
- */
 
+/**
+ * Player class
+ *
+ * */
 class Player implements Serializable {
 
-    private String playerName;
-    private int Score;
+    private String playerName;   //player name
+    private int Score;          // player score
 
     public Player() {
         setPlayerName(new String());
         setScore(0);
     }
 
+//    Getter and setter methods
     public String getPlayerName() {
         return playerName;
     }
@@ -77,11 +64,16 @@ class Player implements Serializable {
     }
 }
 
+/**
+ * This class helps positioning the image.
+ * */
 class ImageDimensions implements Serializable {
-    int leftMargin;
-    int topMargin;
-    int divHeight;
-    int divWidth;
+    int leftMargin;         //position of image w.r.t  left margin
+    int topMargin;          //position of image w.r.t  top margin
+    int divHeight;          // Device height
+    int divWidth;           // Device Width
+
+    //Getter and setter methods
     public int getDivWidth() {
         return divWidth;
     }
@@ -106,11 +98,20 @@ class ImageDimensions implements Serializable {
     public void setLeftMargin(int leftMargin) {
         this.leftMargin = leftMargin;
     }
+
+    /**
+     * This method will position the image randomly.
+     * */
     public void randomiseImagePosition() {
         Random r = new Random();
+
+        //Randomizing left margin
         int rLeft = r.nextInt(getDivWidth());
+
+        //Randomizing top margin and ignore the titlebar space
         int rTop = r.nextInt(getDivHeight() - 220);
 
+        // setting image size w.r.t screen pixels
         final int imageSize = 40 * getDivHeight() / 640;
         if (rLeft >= (getDivWidth() - imageSize)) {
             rLeft -= imageSize;
@@ -127,6 +128,9 @@ class ImageDimensions implements Serializable {
     }
 }
 
+/**
+ * Wrapper class which has player list and image position.
+ * */
 class FliegeScore implements Serializable {
 
     private ArrayList<Player> players;
@@ -138,6 +142,7 @@ class FliegeScore implements Serializable {
         newImagePosition = new ImageDimensions();
     }
 
+    //Getter and setter methods.
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -146,7 +151,21 @@ class FliegeScore implements Serializable {
         this.players = players;
     }
 
+    public ImageDimensions getNewImagePosition() {
+        return newImagePosition;
+    }
 
+    public void setNewImagePosition(ImageDimensions newImagePosition) {
+        this.newImagePosition = newImagePosition;
+    }
+
+    /**
+     * Serialize method for serializing the object of FliegeScore class. This method creates a
+     * serialized byte array of the object of class FliegeScore. This method is used before publishing
+     * the data in uMundo.
+     * @return serialized byte array which is used by the application for transforming this class
+     * object into serialized byte array.
+     * */
     public byte[] serialize() {
         try {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -157,7 +176,15 @@ class FliegeScore implements Serializable {
             return null;
         }
     }
-
+    /**
+     * De-Serialize method for de-serializing the byte array to the object of FliegeScore class. This
+     * method creates a serialized byte array of the object of class FliegeScore. This method is used
+     * after receiving the data from uMundo.
+     * @param bytes - byte array which is obtained from the receive class and is deserialized by
+     *              this method and transformed into an object.
+     * @return An object is returned after transforming a byte array into an object. This process is
+     * called as de-serialization.
+     * */
     public Object deserialize(byte[] bytes) {
         try {
             ByteArrayInputStream b = new ByteArrayInputStream(bytes);
@@ -168,13 +195,7 @@ class FliegeScore implements Serializable {
         }
     }
 
-    public ImageDimensions getNewImagePosition() {
-        return newImagePosition;
-    }
 
-    public void setNewImagePosition(ImageDimensions newImagePosition) {
-        this.newImagePosition = newImagePosition;
-    }
 }
 
 
@@ -185,16 +206,20 @@ public class fliegeRun extends Activity {
     Publisher fooPub;
     Subscriber fooSub;
 
+    //Initialize the variables.
     ImageView imageView;
     ImageDimensions imageDimensions;
-
     Player player;
     FliegeScore fliegeScore;
+    private boolean doubleBackToExitPressedOnce;
 
 
+    /**
+     * This method will set the position of image in the view with the position received
+     * from the publisher. This method will transform the coordinates revieved into device's
+     * normalized coordinates.
+     * */
     public void setRelativeImagePosition(ImageDimensions newImageDims) {
-
-
         float devHeight = imageDimensions.getDivHeight();
         float devWidth = imageDimensions.getDivWidth();
 
@@ -205,7 +230,10 @@ public class fliegeRun extends Activity {
         imageDimensions.setLeftMargin((int) (newImageDims.getLeftMargin() * scaleRatioWidth));
         imageDimensions.setTopMargin((int) (newImageDims.getTopMargin() * scaleRatioHeight));
     }
-
+/**
+ * This method is called to update the user score in the player list.
+ * It is called whenever the touch event is occurred.
+ * */
     public void updatePlayerScoreForUsername(String username) {
         for (Player P : fliegeScore.getPlayers()) {
             if (P.getPlayerName().compareTo(username) == 0) {
@@ -213,7 +241,12 @@ public class fliegeRun extends Activity {
             }
         }
     }
-
+    /**
+     * This is the method called from the callback when a node leaves the network.
+     * @param playerName This particular user will be removed from the player list and updated
+     *                   to all the nodes in the network.
+     *
+     * */
     public void removePlayerFromPlayerListForPlayerName(String playerName) {
 
         for (Player P : fliegeScore.getPlayers()) {
@@ -237,13 +270,15 @@ public class fliegeRun extends Activity {
         player = new Player();
         fliegeScore = new FliegeScore();
 
+        //set the player name
         player.setPlayerName(username);
+
+        // add the new player to the player list
         fliegeScore.getPlayers().add(player);
 
-        System.out.println("username = " + username);
+        // set the title of the screen with username
         setTitle("FliegeRun_" + username);
-
-
+        //This will keep the screen on when the game is running.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         imageDimensions = new ImageDimensions();
@@ -256,17 +291,21 @@ public class fliegeRun extends Activity {
 
         imageView = new ImageView(this);
         imageView.setImageResource(R.drawable.insect);
-
+        //set the image size initially
         imageView.setLayoutParams(new LinearLayout.LayoutParams(40 * getApplicationContext().getResources().getDisplayMetrics().heightPixels / 640, 40 * getApplicationContext().getResources().getDisplayMetrics().heightPixels / 640));
-        Log.i("get x intitially", "" + imageView.getX());
-        Log.i("get t intitially", "" + imageView.getY());
         //adding view to layout
         linearLayout.addView(imageView);
         //make visible to program
         setContentView(linearLayout);
+
+        // set the device height and width
         imageDimensions.setDivWidth(getApplicationContext().getResources().getDisplayMetrics().widthPixels);
         imageDimensions.setDivHeight(getApplicationContext().getResources().getDisplayMetrics().heightPixels);
 
+        /**
+         * Creating a wifi manager object for creating a multicast lock inorder to perform the
+         * mDNS operations used by uMundo Library.
+         * */
         WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi != null) {
             WifiManager.MulticastLock mcLock = wifi.createMulticastLock("mylock");
@@ -276,9 +315,15 @@ public class fliegeRun extends Activity {
             Log.v("android-umundo", "Cannot get WifiManager");
         }
 
+        /**
+         * Loading the uMundoNative liibrary.
+         * */
 //		System.loadLibrary("umundoNativeJava");
         System.loadLibrary("umundoNativeJava_d");
 
+        /**
+         * This method will display the score of all the players when long clicked on the screen
+         * */
         linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -298,12 +343,14 @@ public class fliegeRun extends Activity {
             }
         });
 
+        /**
+         * This method will be called when the user click on the image.
+         * */
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     imageDimensions.randomiseImagePosition();
-//                    imageView.setLayoutParams(new LinearLayout.LayoutParams(imageDimensions.getLeftMargin(),imageDimensions.getTopMargin()));
                     imageView.setX(imageDimensions.getLeftMargin());
                     imageView.setY(imageDimensions.getTopMargin());
 
@@ -317,13 +364,19 @@ public class fliegeRun extends Activity {
 
         disc = new Discovery(Discovery.DiscoveryType.MDNS);
 
+        /** Creating a new node.*/
         node = new Node();
+        /** Adding the created node into the discovery list.*/
         disc.add(node);
 
-        fooPub = new Publisher("pingpong");
+        /** Creating a publisher object with the channel name as fliege.*/
+        fooPub = new Publisher("fliege");
+        /** Adding the publisher to the node in the network which created few steps back.*/
         node.addPublisher(fooPub);
 
-        fooSub = new Subscriber("pingpong", new TestReceiver());
+        /** Creating a Subscriber object with the channel name as fliege.*/
+        fooSub = new Subscriber("fliege", new TestReceiver());
+        /** Adding the subscriber to the node in the network which created few steps back.*/
         node.addSubscriber(fooSub);
 
         new Thread(new Runnable() {
@@ -338,6 +391,7 @@ public class fliegeRun extends Activity {
     public void onStop() {
 
         super.onStop();
+        //Node will publish a message that it is leaving the network when user hits back button.
         fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
     }
 
@@ -346,8 +400,8 @@ public class fliegeRun extends Activity {
 //        fooPub.send(("LEAVE" + player.getPlayerName()).getBytes());
     }
 
-    private boolean doubleBackToExitPressedOnce;
 
+    //Check for double pressing back button before exiting the Game.
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             this.finish();
@@ -372,8 +426,8 @@ public class fliegeRun extends Activity {
             ImageDimensions newImageDims;
             final FliegeScore newFliegeScore;
             try {
-                //Log.d("JOINED","NODE");
                 String recvmessage = new String(msg.getData(), "UTF-8");
+                //Check if User is Joined newly, then add to player list.
                 if (recvmessage.contains("JOINED")) {
                     String username = recvmessage.replace("JOINED", "");
                     Log.d("JOINED", username);
@@ -385,11 +439,9 @@ public class fliegeRun extends Activity {
                     String username = recvmessage.replace("LEAVE", "");
                     Log.d("LEAVE", username);
                     removePlayerFromPlayerListForPlayerName(username);
-                    fooPub.send(fliegeScore.serialize());
+//                    fooPub.send(fliegeScore.serialize());
                 } else {
-
                     newFliegeScore = (FliegeScore) fliegeScore.deserialize(msg.getData());
-                    //newImageDims = (ImageDimensions) imageDimensions.deserialize(msg.getData());
                     setRelativeImagePosition(newFliegeScore.getNewImagePosition());
                     fliegeRun.this.runOnUiThread(new Runnable() {
                         @Override
@@ -399,9 +451,6 @@ public class fliegeRun extends Activity {
                             fliegeScore.setPlayers(newFliegeScore.getPlayers());
                         }
                     });
-                    for (Player P : fliegeScore.getPlayers()) {
-                        Log.d("PlayerScore&Score", P.getPlayerName() + ":" + P.getScore());
-                    }
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

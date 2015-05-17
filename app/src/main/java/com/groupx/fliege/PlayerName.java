@@ -1,5 +1,8 @@
 package com.groupx.fliege;
 
+/*
+* This will first show up when the application is laoded and it takes the player name and pass it to game.
+* */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
