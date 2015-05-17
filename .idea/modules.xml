@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tk3_example_pp.iml" filepath="$PROJECT_DIR$/Tk3_example_pp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/umundo-pingpong.iml" filepath="$PROJECT_DIR$/umundo-pingpong.iml" />
     </modules>
   </component>
 </project>

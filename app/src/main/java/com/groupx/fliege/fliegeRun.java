@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.umundo.core.Discovery;
 import org.umundo.core.Message;
@@ -28,6 +30,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -50,6 +54,32 @@ import java.util.Random;
  * @author sradomski
  */
 
+class Player implements Serializable {
+
+    private String playerName;
+    private int Score;
+
+    public Player() {
+        setPlayerName(new String());
+        setScore(0);
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int score) {
+        Score = score;
+    }
+}
 class ImageDimensions implements Serializable {
     int leftMargin;
     int topMargin;
@@ -138,6 +168,63 @@ class ImageDimensions implements Serializable {
 
 }
 
+class FliegeScore implements Serializable {
+
+    private ArrayList<Player> players;
+    private ImageDimensions newImagePosition;
+
+    public FliegeScore() {
+
+        players = new ArrayList<Player>(10);
+        newImagePosition = new ImageDimensions();
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+
+    public byte[] serialize() {
+        try {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            ObjectOutputStream o = new ObjectOutputStream(b);
+            o.writeObject(this);
+            return b.toByteArray();
+        }
+        catch(IOException ioe)
+        {
+            //Handle logging exception
+            return null;
+        }
+    }
+
+    public Object deserialize(byte[] bytes)  {
+        try {
+            ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+            ObjectInputStream o = new ObjectInputStream(b);
+            return o.readObject();
+        }
+        catch(Exception e){
+            //Handle logging exception
+            return null;
+        }
+    }
+
+    public ImageDimensions getNewImagePosition() {
+        return newImagePosition;
+    }
+
+    public void setNewImagePosition(ImageDimensions newImagePosition) {
+        this.newImagePosition = newImagePosition;
+    }
+}
+
+
+
 public class fliegeRun extends Activity {
 
     Discovery disc;
@@ -147,6 +234,9 @@ public class fliegeRun extends Activity {
 
     ImageView imageView;
     ImageDimensions imageDimensions;
+
+    Player player;
+    FliegeScore fliegeScore;
 
 
     public void setRelativeImagePosition(ImageDimensions newImageDims) {
@@ -163,6 +253,26 @@ public class fliegeRun extends Activity {
         imageDimensions.setTopMargin((int) (newImageDims.getTopMargin() * scaleRatioHeight));
     }
 
+    public void updatePlayerScoreForUsername(String username) {
+
+        for(Player P:fliegeScore.getPlayers()) {
+            if(P.getPlayerName().compareTo(username)==0) {
+
+                P.setScore(P.getScore() + 1);
+            }
+        }
+    }
+
+    public void removePlayerFromPlayerListForPlayerName(String playerName) {
+
+        for(Player P:fliegeScore.getPlayers()) {
+            if(P.getPlayerName().compareTo(playerName)==0) {
+                fliegeScore.getPlayers().remove(P);
+            }
+        }
+
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -172,10 +282,18 @@ public class fliegeRun extends Activity {
 
         Intent intent = getIntent();
 
-        String username = intent.getStringExtra("username");
+        final String username = intent.getStringExtra("username");
+        player = new Player();
+        fliegeScore = new FliegeScore();
+
+        player.setPlayerName(username);
+        fliegeScore.getPlayers().add(player);
 
         System.out.println("username = " + username);
         setTitle("FliegeRun_" + username);
+
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         imageDimensions = new ImageDimensions();
         final LinearLayout linearLayout = new LinearLayout(this);
@@ -211,6 +329,24 @@ public class fliegeRun extends Activity {
 //		System.loadLibrary("umundoNativeJava");
         System.loadLibrary("umundoNativeJava_d");
 
+        linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                String scorecard = "ScoreCard\n";
+                for(Player P:fliegeScore.getPlayers()) {
+                    scorecard += P.getPlayerName();
+                    scorecard += " - ";
+                    scorecard += String.valueOf(P.getScore());
+                    scorecard += "\n";
+                }
+
+
+                Toast.makeText(getApplicationContext(), scorecard,
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -224,10 +360,13 @@ public class fliegeRun extends Activity {
                     imageView.setX(imageDimensions.getLeftMargin());
                     imageView.setY(imageDimensions.getTopMargin());
 
+                    updatePlayerScoreForUsername(username);
+                    fliegeScore.setNewImagePosition(imageDimensions);
+
                     Log.i("get x random", "" + imageView.getX());
                     Log.i("get t random", "" + imageView.getY());
 
-                    fooPub.send(imageDimensions.serialize());
+                    fooPub.send(fliegeScore.serialize());
                 }
                 return true;
             }
@@ -244,22 +383,65 @@ public class fliegeRun extends Activity {
         fooSub = new Subscriber("pingpong", new TestReceiver());
         node.addSubscriber(fooSub);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                fooPub.waitForSubscribers(1);
+                fooPub.send(("JOINED"+username).getBytes());
+            }
+        }).start();
+
 //        testPublishing = new Thread(new TestPublishing());
 //        testPublishing.start();
     }
 
-    public class TestReceiver extends Receiver {
+    public void onStop() {
+
+        super.onStop();
+        fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
+    }
+
+        public class TestReceiver extends Receiver {
         public void receive(Message msg) {
             ImageDimensions newImageDims;
-            newImageDims = (ImageDimensions) imageDimensions.deserialize(msg.getData());
-            setRelativeImagePosition(newImageDims);
-            fliegeRun.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.setX(imageDimensions.getLeftMargin());
-                    imageView.setY(imageDimensions.getTopMargin());
+            final FliegeScore newFliegeScore;
+            try {
+                //Log.d("JOINED","NODE");
+                String recvmessage = new String(msg.getData(),"UTF-8");
+                if(recvmessage.contains("JOINED")) {
+                    String username = recvmessage.replace("JOINED","");
+                    Log.d("JOINED",username);
+                    Player newPlayer=new Player();
+                    newPlayer.setPlayerName(username);
+                    fliegeScore.getPlayers().add(newPlayer);
+                    fooPub.send(fliegeScore.serialize());
                 }
-            });
+                else if(recvmessage.contains("LEAVE")) {
+                    String username = recvmessage.replace("LEAVE","");
+                    Log.d("LEAVE",username);
+                    removePlayerFromPlayerListForPlayerName(username);
+                    fooPub.send(fliegeScore.serialize());
+                }
+                else {
+
+                    newFliegeScore = (FliegeScore) fliegeScore.deserialize(msg.getData());
+                    //newImageDims = (ImageDimensions) imageDimensions.deserialize(msg.getData());
+                    setRelativeImagePosition(newFliegeScore.getNewImagePosition());
+                    fliegeRun.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setX(imageDimensions.getLeftMargin());
+                            imageView.setY(imageDimensions.getTopMargin());
+                            fliegeScore.setPlayers(newFliegeScore.getPlayers());
+                        }
+                    });
+                    for(Player P:fliegeScore.getPlayers()) {
+                        Log.d("PlayerScore&Score",P.getPlayerName()+":"+P.getScore());
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
