@@ -1,9 +1,5 @@
 package com.groupx.fliege;
 
-/**
- * Created by prade on 5/16/2015.
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -52,7 +48,6 @@ import java.util.Random;
  * <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
  * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
  *
- * @author sradomski
  */
 
 class Player implements Serializable {
@@ -85,50 +80,38 @@ class Player implements Serializable {
 class ImageDimensions implements Serializable {
     int leftMargin;
     int topMargin;
-
     int divHeight;
     int divWidth;
-
     public int getDivWidth() {
         return divWidth;
     }
-
     public void setDivWidth(int divWidth) {
         this.divWidth = divWidth;
     }
-
     public int getDivHeight() {
         return divHeight;
     }
-
     public void setDivHeight(int divHeight) {
         this.divHeight = divHeight;
     }
-
     public int getTopMargin() {
         return topMargin;
     }
-
     public void setTopMargin(int topMargin) {
         this.topMargin = topMargin;
     }
-
     public int getLeftMargin() {
         return leftMargin;
     }
-
     public void setLeftMargin(int leftMargin) {
         this.leftMargin = leftMargin;
     }
-
     public void randomiseImagePosition() {
         Random r = new Random();
         int rLeft = r.nextInt(getDivWidth());
         int rTop = r.nextInt(getDivHeight() - 220);
 
         final int imageSize = 40 * getDivHeight() / 640;
-        Log.i("Height:", String.valueOf(getDivHeight()));
-
         if (rLeft >= (getDivWidth() - imageSize)) {
             rLeft -= imageSize;
         } else if (rLeft <= imageSize) {
@@ -142,32 +125,6 @@ class ImageDimensions implements Serializable {
         this.setLeftMargin(rLeft);
         this.setTopMargin(rTop);
     }
-
-
-    public byte[] serialize() {
-        try {
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            ObjectOutputStream o = new ObjectOutputStream(b);
-            o.writeObject(this);
-            return b.toByteArray();
-        } catch (IOException ioe) {
-            //Handle logging exception
-            return null;
-        }
-    }
-
-    public Object deserialize(byte[] bytes) {
-        try {
-            ByteArrayInputStream b = new ByteArrayInputStream(bytes);
-            ObjectInputStream o = new ObjectInputStream(b);
-            return o.readObject();
-        } catch (Exception e) {
-            //Handle logging exception
-            return null;
-        }
-    }
-
-
 }
 
 class FliegeScore implements Serializable {

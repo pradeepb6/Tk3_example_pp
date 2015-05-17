@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-
 public class PlayerName extends Activity {
 
     @Override
@@ -17,7 +16,6 @@ public class PlayerName extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_name);
 
-//        final TextView tv = (TextView) findViewById(R.id.textView);
         final EditText editText = (EditText) findViewById(R.id.editText);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
