@@ -383,13 +383,13 @@ public class fliegeRun extends Activity {
         fooSub = new Subscriber("pingpong", new TestReceiver());
         node.addSubscriber(fooSub);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+ //       new Thread(new Runnable() {
+  //          @Override
+   //         public void run() {
                 fooPub.waitForSubscribers(1);
                 fooPub.send(("JOINED"+username).getBytes());
-            }
-        }).start();
+     //       }
+       // }).start();
 
 //        testPublishing = new Thread(new TestPublishing());
 //        testPublishing.start();
@@ -398,6 +398,10 @@ public class fliegeRun extends Activity {
     public void onStop() {
 
         super.onStop();
+        //fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
+    }
+    public void onDestroy() {
+        super.onDestroy();
         fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
     }
 

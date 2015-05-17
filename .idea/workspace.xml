@@ -5,10 +5,6 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="java" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="fdc6afff-e8a1-4ec1-94ce-4151a96b7200" name="Default" comment="" />
     <ignored path="Tk3_example_pp.iws" />
@@ -43,8 +39,8 @@
       <file leaf-file-name="fliegeRun.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/groupx/fliege/fliegeRun.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31338027">
-              <caret line="338" column="35" selection-start-line="338" selection-start-column="35" selection-end-line="338" selection-end-column="35" />
+            <state vertical-scroll-proportion="-0.26760563">
+              <caret line="391" column="9" selection-start-line="391" selection-start-column="9" selection-end-line="391" selection-end-column="9" />
               <folding>
                 <element signature="e#2039#2040#0" expanded="true" />
                 <element signature="e#2083#2084#0" expanded="true" />
@@ -54,6 +50,8 @@
                 <element signature="e#2208#2209#0" expanded="true" />
                 <element signature="e#2670#2671#0" expanded="true" />
                 <element signature="e#2702#2703#0" expanded="true" />
+                <element signature="e#2825#2826#0" expanded="true" />
+                <element signature="e#2858#2859#0" expanded="true" />
                 <element signature="e#2907#2908#0" expanded="true" />
                 <element signature="e#2951#2952#0" expanded="true" />
                 <element signature="e#4653#4654#0" expanded="true" />
@@ -66,10 +64,8 @@
                 <element signature="e#9967#9968#0" expanded="true" />
                 <element signature="e#10009#11154#0" expanded="true" />
                 <element signature="e#11153#11154#0" expanded="true" />
-                <element signature="e#11472#11673#0" expanded="true" />
-                <element signature="e#11672#11673#0" expanded="true" />
-                <element signature="e#13309#13685#0" expanded="true" />
-                <element signature="e#13684#13685#0" expanded="true" />
+                <element signature="e#13450#13826#0" expanded="true" />
+                <element signature="e#13825#13826#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -961,7 +957,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="065204a0006351cd" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="065204a0006351cd 41006d1c89072100" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_15" />
   </component>
   <component name="RunManager" selected="Android Application.app">
@@ -1159,7 +1155,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1366" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -1278,8 +1274,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/groupx/fliege/fliegeRun.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31338027">
-          <caret line="338" column="35" selection-start-line="338" selection-start-column="35" selection-end-line="338" selection-end-column="35" />
+        <state vertical-scroll-proportion="-0.26760563">
+          <caret line="391" column="9" selection-start-line="391" selection-start-column="9" selection-end-line="391" selection-end-column="9" />
           <folding>
             <element signature="e#2039#2040#0" expanded="true" />
             <element signature="e#2083#2084#0" expanded="true" />
@@ -1289,6 +1285,8 @@
             <element signature="e#2208#2209#0" expanded="true" />
             <element signature="e#2670#2671#0" expanded="true" />
             <element signature="e#2702#2703#0" expanded="true" />
+            <element signature="e#2825#2826#0" expanded="true" />
+            <element signature="e#2858#2859#0" expanded="true" />
             <element signature="e#2907#2908#0" expanded="true" />
             <element signature="e#2951#2952#0" expanded="true" />
             <element signature="e#4653#4654#0" expanded="true" />
@@ -1301,10 +1299,8 @@
             <element signature="e#9967#9968#0" expanded="true" />
             <element signature="e#10009#11154#0" expanded="true" />
             <element signature="e#11153#11154#0" expanded="true" />
-            <element signature="e#11472#11673#0" expanded="true" />
-            <element signature="e#11672#11673#0" expanded="true" />
-            <element signature="e#13309#13685#0" expanded="true" />
-            <element signature="e#13684#13685#0" expanded="true" />
+            <element signature="e#13450#13826#0" expanded="true" />
+            <element signature="e#13825#13826#0" expanded="true" />
           </folding>
         </state>
       </provider>
