@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/libs/umundo.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="ce7b00ac251e17ef462df0095f52423933935b18">
-        <dex dex="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/pre-dexed/debug/umundo-a6f9145b261f5cae76de23329234b1f702290561.jar" />
-    </item>
-    <item
-        jar="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-d27b31a39d794a19983085c9ed4d1b00e828dfd9.jar" />
-    </item>
-    <item
-        jar="/home/m4n1c/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-91143bdcfcc99971933d29e74daf385486d3778c.jar" />
+        <dex dex="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-fc86b50f370ecbec08e324c10881a2634272ac80.jar" />
     </item>
     <item
-        jar="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jar="C:\Users\prade\git\Tk3_example_pp\app\libs\umundo.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ce7b00ac251e17ef462df0095f52423933935b18">
+        <dex dex="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\pre-dexed\debug\umundo-25c64bbe8b25f76de3061e10333f75c8ca6d7e1d.jar" />
+    </item>
+    <item
+        jar="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-f99ecdc1119d76172f92a55358f26790c28f50be.jar" />
+    </item>
+    <item
+        jar="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/home/m4n1c/AndroidStudioProjects/Tk3_example_pp/app/build/intermediates/pre-dexed/debug/classes-505e5fba18ef4fe1b666085e2fbd50d11bb39cc0.jar" />
+        <dex dex="C:\Users\prade\git\Tk3_example_pp\app\build\intermediates\pre-dexed\debug\classes-ff9d9179b45586c88d389775f0c63f569dc2ebe7.jar" />
     </item>
 
 </items>

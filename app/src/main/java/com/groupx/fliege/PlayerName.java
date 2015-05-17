@@ -29,8 +29,6 @@ public class PlayerName extends Activity {
         Button enterButton = (Button) findViewById(R.id.button);
         final Intent nextIntent = new Intent(getApplicationContext(), fliegeRun.class);
 
-//        String username;
-
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,9 +39,9 @@ public class PlayerName extends Activity {
                 }
                 nextIntent.putExtra("username", username);
                 startActivity(nextIntent);
+
             }
         });
-
 
     }
 

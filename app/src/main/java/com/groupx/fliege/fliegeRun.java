@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,16 +37,16 @@ import java.util.Random;
 
 /**
  * Getting it to run:
- * <p/>
+ * <p>
  * 1. Replace the umundo.jar in the libs folder by the one from the intaller and
  * add it to the classpath. Make sure to take the umundo.jar for Android, as you
  * are not allowed to have JNI code within and the desktop umundo.jar includes all
  * supported JNI libraries.
- * <p/>
+ * <p>
  * 2. Replace the JNI library libumundoNativeJava.so (or the debug variant) into libs/armeabi/
- * <p/>
+ * <p>
  * 3. Make sure System.loadLibrary() loads the correct variant.
- * <p/>
+ * <p>
  * 4. Make sure you have set the correct permissions:
  * <uses-permission android:name="android.permission.INTERNET"/>
  * <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
@@ -80,6 +81,7 @@ class Player implements Serializable {
         Score = score;
     }
 }
+
 class ImageDimensions implements Serializable {
     int leftMargin;
     int topMargin;
@@ -194,22 +196,17 @@ class FliegeScore implements Serializable {
             ObjectOutputStream o = new ObjectOutputStream(b);
             o.writeObject(this);
             return b.toByteArray();
-        }
-        catch(IOException ioe)
-        {
-            //Handle logging exception
+        } catch (IOException ioe) {
             return null;
         }
     }
 
-    public Object deserialize(byte[] bytes)  {
+    public Object deserialize(byte[] bytes) {
         try {
             ByteArrayInputStream b = new ByteArrayInputStream(bytes);
             ObjectInputStream o = new ObjectInputStream(b);
             return o.readObject();
-        }
-        catch(Exception e){
-            //Handle logging exception
+        } catch (Exception e) {
             return null;
         }
     }
@@ -222,7 +219,6 @@ class FliegeScore implements Serializable {
         this.newImagePosition = newImagePosition;
     }
 }
-
 
 
 public class fliegeRun extends Activity {
@@ -254,10 +250,8 @@ public class fliegeRun extends Activity {
     }
 
     public void updatePlayerScoreForUsername(String username) {
-
-        for(Player P:fliegeScore.getPlayers()) {
-            if(P.getPlayerName().compareTo(username)==0) {
-
+        for (Player P : fliegeScore.getPlayers()) {
+            if (P.getPlayerName().compareTo(username) == 0) {
                 P.setScore(P.getScore() + 1);
             }
         }
@@ -265,8 +259,8 @@ public class fliegeRun extends Activity {
 
     public void removePlayerFromPlayerListForPlayerName(String playerName) {
 
-        for(Player P:fliegeScore.getPlayers()) {
-            if(P.getPlayerName().compareTo(playerName)==0) {
+        for (Player P : fliegeScore.getPlayers()) {
+            if (P.getPlayerName().compareTo(playerName) == 0) {
                 fliegeScore.getPlayers().remove(P);
             }
         }
@@ -313,7 +307,6 @@ public class fliegeRun extends Activity {
         linearLayout.addView(imageView);
         //make visible to program
         setContentView(linearLayout);
-//        setContentView(imageView);
         imageDimensions.setDivWidth(getApplicationContext().getResources().getDisplayMetrics().widthPixels);
         imageDimensions.setDivHeight(getApplicationContext().getResources().getDisplayMetrics().heightPixels);
 
@@ -334,7 +327,7 @@ public class fliegeRun extends Activity {
             public boolean onLongClick(View v) {
 
                 String scorecard = "ScoreCard\n";
-                for(Player P:fliegeScore.getPlayers()) {
+                for (Player P : fliegeScore.getPlayers()) {
                     scorecard += P.getPlayerName();
                     scorecard += " - ";
                     scorecard += String.valueOf(P.getScore());
@@ -351,10 +344,7 @@ public class fliegeRun extends Activity {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if(motionEvent.getX() == imageView.getX())
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    System.out.println("Pradeep X= " + motionEvent.getX());
-                    System.out.println("Pradeep Y= " + motionEvent.getY());
                     imageDimensions.randomiseImagePosition();
 //                    imageView.setLayoutParams(new LinearLayout.LayoutParams(imageDimensions.getLeftMargin(),imageDimensions.getTopMargin()));
                     imageView.setX(imageDimensions.getLeftMargin());
@@ -362,10 +352,6 @@ public class fliegeRun extends Activity {
 
                     updatePlayerScoreForUsername(username);
                     fliegeScore.setNewImagePosition(imageDimensions);
-
-                    Log.i("get x random", "" + imageView.getX());
-                    Log.i("get t random", "" + imageView.getY());
-
                     fooPub.send(fliegeScore.serialize());
                 }
                 return true;
@@ -383,50 +369,67 @@ public class fliegeRun extends Activity {
         fooSub = new Subscriber("pingpong", new TestReceiver());
         node.addSubscriber(fooSub);
 
- //       new Thread(new Runnable() {
-  //          @Override
-   //         public void run() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 fooPub.waitForSubscribers(1);
                 fooPub.send(("JOINED"+username).getBytes());
-     //       }
-       // }).start();
-
-//        testPublishing = new Thread(new TestPublishing());
-//        testPublishing.start();
+            }
+        }).start();
     }
 
     public void onStop() {
 
         super.onStop();
-        //fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
-    }
-    public void onDestroy() {
-        super.onDestroy();
         fooPub.send(("LEAVE"+player.getPlayerName()).getBytes());
     }
 
-        public class TestReceiver extends Receiver {
+    public void onDestroy() {
+        super.onDestroy();
+//        fooPub.send(("LEAVE" + player.getPlayerName()).getBytes());
+    }
+
+    private boolean doubleBackToExitPressedOnce;
+
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            this.finish();
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit the game", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+    public class TestReceiver extends Receiver {
         public void receive(Message msg) {
             ImageDimensions newImageDims;
             final FliegeScore newFliegeScore;
             try {
                 //Log.d("JOINED","NODE");
-                String recvmessage = new String(msg.getData(),"UTF-8");
-                if(recvmessage.contains("JOINED")) {
-                    String username = recvmessage.replace("JOINED","");
-                    Log.d("JOINED",username);
-                    Player newPlayer=new Player();
+                String recvmessage = new String(msg.getData(), "UTF-8");
+                if (recvmessage.contains("JOINED")) {
+                    String username = recvmessage.replace("JOINED", "");
+                    Log.d("JOINED", username);
+                    Player newPlayer = new Player();
                     newPlayer.setPlayerName(username);
                     fliegeScore.getPlayers().add(newPlayer);
                     fooPub.send(fliegeScore.serialize());
-                }
-                else if(recvmessage.contains("LEAVE")) {
-                    String username = recvmessage.replace("LEAVE","");
-                    Log.d("LEAVE",username);
+                } else if (recvmessage.contains("LEAVE")) {
+                    String username = recvmessage.replace("LEAVE", "");
+                    Log.d("LEAVE", username);
                     removePlayerFromPlayerListForPlayerName(username);
                     fooPub.send(fliegeScore.serialize());
-                }
-                else {
+                } else {
 
                     newFliegeScore = (FliegeScore) fliegeScore.deserialize(msg.getData());
                     //newImageDims = (ImageDimensions) imageDimensions.deserialize(msg.getData());
@@ -439,8 +442,8 @@ public class fliegeRun extends Activity {
                             fliegeScore.setPlayers(newFliegeScore.getPlayers());
                         }
                     });
-                    for(Player P:fliegeScore.getPlayers()) {
-                        Log.d("PlayerScore&Score",P.getPlayerName()+":"+P.getScore());
+                    for (Player P : fliegeScore.getPlayers()) {
+                        Log.d("PlayerScore&Score", P.getPlayerName() + ":" + P.getScore());
                     }
                 }
             } catch (UnsupportedEncodingException e) {
